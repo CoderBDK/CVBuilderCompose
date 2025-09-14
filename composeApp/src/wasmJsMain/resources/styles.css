@@ -1,0 +1,71 @@
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+:root {
+    --bg: #f7fafc;
+    --card: #ffffff;
+    --text: #1f2937;
+    --muted: #6b7280;
+    --accent: #2563eb;
+}
+
+.loading-overlay {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(15, 23, 42, 0.6);
+    z-index: 9999;
+}
+
+.loading-card {
+    background: var(--card);
+    color: var(--text);
+    padding: 18px 22px;
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(2, 6, 23, 0.32);
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    min-width: 220px;
+    justify-content: center;
+}
+
+.spinner {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 3px solid var(--muted);
+    border-top-color: var(--accent);
+    animation: spin 1s linear infinite;
+    flex: 0 0 18px;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.loading-text {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    white-space: nowrap;
+}
+
+@media (max-width: 360px) {
+    .loading-card {
+        padding: 12px 14px;
+        min-width: 160px;
+    }
+
+    .loading-text {
+        font-size: 14px;
+    }
+}
