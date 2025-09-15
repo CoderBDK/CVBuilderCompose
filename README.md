@@ -1,10 +1,36 @@
+# CV Builder
+
+A **Compose Multiplatform** CV Builder Tool to **design CV templates** and export them as **PDF documents** across multiple platforms (Desktop JVM, Android, Web).
+
+---
+
+## Features
+- **Visual Editor** powered by Compose Multiplatform
+- **Rich set of components**: Layout, Text, Divider, Image, etc.
+- **Dynamic Properties Panel** to edit text, color, font size, alignment, layout etc.
+- **Multi-page CV support**
+- **Cross-platform PDF export** (Desktop, Web – Android coming soon)
+- **Export & Import JSON**: Save CV templates for backup or sharing
+- **Works across all supported platforms** (Desktop, Android, Web)
+
+---
+
+## Live Demo
+Try the CV Builder: [Live Demo](https://coderbdk.github.io/cv-builder-demo/)
+
+---
+
+## Project Structure
+
 This is a Kotlin Multiplatform project targeting Android, Web, Desktop (JVM).
 
 * [/composeApp](./composeApp/src) is for code that will be shared across your Compose Multiplatform applications.
   It contains several subfolders:
   - [commonMain](./composeApp/src/commonMain/kotlin) is for code that’s common for all targets.
   - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to edit the Desktop (JVM) specific part, the [jvmMain](./composeApp/src/jvmMain/kotlin)
+    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
+    the [iosMain](./composeApp/src/iosMain/kotlin) folder would be the right place for such calls.
+    Similarly, if you want to edit the Desktop (JVM) specific part, the [jvmMain](./composeApp/src/jvmMain/kotlin)
     folder is the appropriate location.
 
 ### Build and Run Android Application
