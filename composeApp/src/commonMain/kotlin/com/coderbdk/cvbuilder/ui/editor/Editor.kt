@@ -115,7 +115,7 @@ private fun RenderEditorComponent(
             modifier = modifier.weight(weight)
         }
         colScope?.apply {
-            modifier = Modifier.weight(weight)
+            modifier = modifier.weight(weight)
         }
 
     }
@@ -393,7 +393,7 @@ private fun RenderPreviewComponent(
             modifier = modifier.weight(weight)
         }
         colScope?.apply {
-            modifier = Modifier.weight(weight)
+            modifier = modifier.weight(weight)
         }
 
     }
