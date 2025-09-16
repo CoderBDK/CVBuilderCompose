@@ -21,12 +21,19 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import androidx.window.core.layout.WindowWidthSizeClass
 import com.coderbdk.cvbuilder.util.toJsonString
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
@@ -37,6 +44,26 @@ fun HomeScreen(
     onEvent: (HomeUiEvent) -> Unit,
     onNavigateToEditor: (String) -> Unit
 ) {
+    val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
+
+    val miSize = when (windowSizeClass.windowWidthSizeClass) {
+        WindowWidthSizeClass.COMPACT -> {
+            360.dp
+        }
+
+        WindowWidthSizeClass.MEDIUM -> {
+            400.dp
+        }
+
+        WindowWidthSizeClass.EXPANDED -> {
+            400.dp
+        }
+
+        else -> {
+            400.dp
+        }
+    }
+
     Column(Modifier.fillMaxSize().padding(16.dp)) {
         FilledIconButton(
             onClick = {
@@ -48,11 +75,11 @@ fun HomeScreen(
             Icon(Icons.Default.AddCircle, "create")
         }
 
-        LazyVerticalGrid(columns = GridCells.Adaptive(400.dp), Modifier.fillMaxSize()) {
+        LazyVerticalGrid(columns = GridCells.Adaptive(miSize), Modifier.fillMaxSize()) {
             itemsIndexed(uiState.templates) { index, template ->
                 OutlinedCard(
                     Modifier
-                        .requiredSize(400.dp, 500.dp)
+                        .requiredSize(miSize, miSize + 100.dp)
                         .padding(8.dp),
                     border = if (uiState.selectedIndex != null && uiState.selectedIndex == index) BorderStroke(
                         width = 1.dp,

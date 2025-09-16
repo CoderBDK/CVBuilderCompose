@@ -115,13 +115,8 @@ fun EditorScreen(
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
     val coroutine = rememberCoroutineScope()
     var loading by remember { mutableStateOf(false) }
-    val pageWidth = with(LocalDensity.current) { uiState.template.pageWidth.toDp() }
-    val pageHeight = with(LocalDensity.current) { uiState.template.pageHeight.toDp() }
-
-    val pageWidthPx =
-        with(LocalDensity.current) { pageWidth.toPx() }.toInt()
-    val pageHeightPx =
-        with(LocalDensity.current) { pageHeight.toPx() }.toInt()
+    val pageWidth =  uiState.template.pageWidth.dp
+    val pageHeight = uiState.template.pageHeight.dp
 
     var isCompactWindowSize = false
 
@@ -218,7 +213,7 @@ fun EditorScreen(
 
                     TopAppBar(
                         title = {
-                            Text("Editor (${pageWidthPx}x$pageHeightPx)")
+                            Text("Editor (${pageWidth.value}x${pageHeight.value})")
                         },
                         navigationIcon = {
                             IconButton(
@@ -595,7 +590,7 @@ fun MainEditorPane(
             IconButton(onClick = { showParent = !showParent }) {
                 Icon(Icons.Default.BorderAll, "show parent")
             }
-            Text("${offset.x},${offset.y}")
+            Text("${offset.x.toInt()},${offset.y.toInt()}",  fontSize = 12.sp)
             Row(verticalAlignment = Alignment.CenterVertically) {
 
                 IconButton(onClick = { onEvent(EditorUiEvent.PrevPage) }) {
