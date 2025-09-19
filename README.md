@@ -14,9 +14,11 @@ A **Compose Multiplatform** CV Builder Tool to **design CV templates** and expor
 - **Works across all supported platforms** (Desktop, Android, Web)
 
 ---
-
 ## Live Demo
 Try the CV Builder: [Live Demo](https://coderbdk.github.io/cv-builder-demo/)
+
+<img width="1366" height="701" alt="Screenshot from 2025-09-16 11-45-47" src="https://github.com/user-attachments/assets/eca3e94a-4580-4d7b-b43c-7e452adba21c" />
+<img width="1366" height="699" alt="Screenshot from 2025-09-14 22-23-48" src="https://github.com/user-attachments/assets/a9245b8e-0197-4878-a1af-9c03440cb425" />
 
 ---
 
