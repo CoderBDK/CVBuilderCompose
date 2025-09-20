@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         (getPlatform().imagePicker as AndroidImagePicker).register(this)
-
+        (getPlatform().cvFileHandler as AndroidCVFileHandler).register(this)
         setContent {
             App()
         }

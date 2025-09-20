@@ -44,7 +44,6 @@ fun ExportComposePdf(
             },
             onPageRender = { pageIndex, pdfCanvas ->
                 withFrameNanos {}
-                withFrameMillis { }
                 val bitmap = graphicsLayer.toImageBitmap()
                 pdfCanvas.renderPage(bitmap)
             },
