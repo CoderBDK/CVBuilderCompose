@@ -25,6 +25,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         (getPlatform().imagePicker as AndroidImagePicker).register(this)
         (getPlatform().cvFileHandler as AndroidCVFileHandler).register(this)
+        (getPlatform().pdfExporter as AndroidPdfExporter).register(this)
         setContent {
             App()
         }
