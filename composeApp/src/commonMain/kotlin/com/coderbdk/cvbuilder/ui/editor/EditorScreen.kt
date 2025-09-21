@@ -82,7 +82,6 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -100,6 +99,7 @@ import com.coderbdk.cvbuilder.pdf.ExportComposePdf
 import com.coderbdk.cvbuilder.ui.editor.components.PropertiesPanel
 import com.coderbdk.cvbuilder.util.demoCVJson
 import com.coderbdk.cvbuilder.util.toCVTemplate
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -115,7 +115,7 @@ fun EditorScreen(
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
     val coroutine = rememberCoroutineScope()
     var loading by remember { mutableStateOf(false) }
-    val pageWidth =  remember { uiState.template.pageWidth.dp }
+    val pageWidth = remember { uiState.template.pageWidth.dp }
     val pageHeight = remember { uiState.template.pageHeight.dp }
 
     var isCompactWindowSize = false
@@ -227,13 +227,26 @@ fun EditorScreen(
                         actions = {
 
                             if (isCompactWindowSize) {
-                                IconButton(
-                                    onClick = {
-
+                                var expanded by remember { mutableStateOf(false) }
+                                Box {
+                                    IconButton(
+                                        onClick = {
+                                            expanded = true
+                                        }
+                                    ) {
+                                        Icon(Icons.Default.MoreVert, "more option")
                                     }
-                                ) {
-                                    Icon(Icons.Default.MoreVert, "more option")
+                                    DropdownActionMenu(
+                                        uiState = uiState,
+                                        onEvent = onEvent,
+                                        coroutine = coroutine,
+                                        loading = loading,
+                                        expanded = expanded,
+                                        onLoading = { loading = it },
+                                        onDismissRequest = { expanded = false }
+                                    )
                                 }
+
                                 return@TopAppBar
                             }
                             OutlinedCard() {
@@ -337,6 +350,96 @@ fun EditorScreen(
             }
         }
     )
+}
+
+@Composable
+fun DropdownActionMenu(
+    uiState: EditorUiState,
+    onEvent: (EditorUiEvent) -> Unit,
+    coroutine: CoroutineScope,
+    loading: Boolean,
+    onLoading: (Boolean) -> Unit,
+    expanded: Boolean,
+    onDismissRequest: () -> Unit,
+) {
+    DropdownMenu(
+        expanded = expanded,
+        onDismissRequest = onDismissRequest
+    ) {
+
+        if (uiState.selectedComponent != null && uiState.selectedComponent is CVLayout) {
+            DropdownMenuItem(
+                text = { Text("Delete Page") },
+                leadingIcon = {
+                    Icon(Icons.Default.Delete, "delete page")
+                },
+                onClick = {
+                    onDismissRequest()
+                    onEvent(EditorUiEvent.DeleteCurrentPage)
+                }
+            )
+        }
+        DropdownMenuItem(
+            text = { Text("Create page") },
+            leadingIcon = {
+                Icon(Icons.Default.Add, "create page")
+            },
+            onClick = {
+                onDismissRequest()
+                onEvent(EditorUiEvent.CreateNewPage)
+            }
+        )
+
+        DropdownMenuItem(
+            text = { Text("Import Template") },
+            leadingIcon = {
+                Icon(Icons.Default.FileOpen, "Import")
+            },
+            onClick = {
+                onDismissRequest()
+                if (!loading) {
+                    coroutine.launch {
+                        onLoading(true)
+                        getPlatform().cvFileHandler.import()?.let {
+                            onEvent(EditorUiEvent.LoadCVTemplate(it))
+                        }
+                        onLoading(false)
+                    }
+                }
+            }
+        )
+        DropdownMenuItem(
+            text = { Text("Export Template") },
+            leadingIcon = {
+                Icon(Icons.Default.SaveAs, "Export")
+            },
+            onClick = {
+                onDismissRequest()
+                if (!loading) {
+                    coroutine.launch {
+                        onLoading(true)
+                        getPlatform().cvFileHandler.export(
+                            template = uiState.template
+                        )
+                        onLoading(false)
+                    }
+                }
+
+            }
+        )
+        DropdownMenuItem(
+            text = { Text("Pdf Export") },
+            leadingIcon = {
+                Icon(Icons.Default.PictureAsPdf, "Export")
+            },
+            onClick = {
+                onDismissRequest()
+                onEvent(EditorUiEvent.PdfExporting(true))
+            }
+        )
+    }
+
+
 }
 
 @Composable
@@ -590,7 +693,7 @@ fun MainEditorPane(
             IconButton(onClick = { showParent = !showParent }) {
                 Icon(Icons.Default.BorderAll, "show parent")
             }
-            Text("${offset.x.toInt()},${offset.y.toInt()}",  fontSize = 12.sp)
+            Text("${offset.x.toInt()},${offset.y.toInt()}", fontSize = 12.sp)
             Row(verticalAlignment = Alignment.CenterVertically) {
 
                 IconButton(onClick = { onEvent(EditorUiEvent.PrevPage) }) {
