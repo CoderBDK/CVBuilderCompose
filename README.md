@@ -9,7 +9,7 @@ A **Compose Multiplatform** CV Builder Tool to **design CV templates** and expor
 - **Rich set of components**: Layout, Text, Divider, Image, etc.
 - **Dynamic Properties Panel** to edit text, color, font size, alignment, layout etc.
 - **Multi-page CV support**
-- **Cross-platform PDF export** (Desktop, Web – Android coming soon)
+- **Cross-platform PDF export** (Desktop, Web and Android)
 - **Export & Import JSON**: Save CV templates for backup or sharing
 - **Works across all supported platforms** (Desktop, Android, Web)
 
